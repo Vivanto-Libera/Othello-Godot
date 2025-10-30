@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://7aj031023gav"]
+
+[ext_resource type="Script" uid="uid://ck6vltqpgil2l" path="res://Square.cs" id="1_2eeqm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5epwn"]
+
+[node name="Square" type="TextureRect"]
+offset_right = 64.0
+offset_bottom = 64.0
+script = ExtResource("1_2eeqm")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 63.0
+offset_bottom = 63.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_5epwn")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_5epwn")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_5epwn")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_5epwn")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_5epwn")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_5epwn")

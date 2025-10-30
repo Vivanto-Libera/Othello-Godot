@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://h8c1l58i1lep"]
+
+[ext_resource type="Texture2D" uid="uid://batpfb73bpy5w" path="res://image/othelloBoard.png" id="1_ig7tw"]
+
+[node name="main" type="Node"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_ig7tw")
