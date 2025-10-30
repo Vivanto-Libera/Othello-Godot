@@ -14,7 +14,7 @@ namespace othello
         {
             if(passCount != 2) 
             {
-                return Square.State.EMPTY;
+                return LEGALMOVE;
             }
             int black = 0;
             int white = 0;
@@ -185,6 +185,38 @@ namespace othello
                 return 64;
             }
             return r * 8 + c;
+        }
+        public (float[,] input1, float[,] input2, float[,] input3) ModelInput() 
+        {
+            float[,] playerInput = new float[8, 8];
+            float[,] oppoInput = new float[8, 8];
+            float[,] moveInput = new float[8, 8];
+            for (int i = 0; i < 8; i++) 
+            {
+                for(int j = 0; j < 8; j++) 
+                {
+                    if (board[i,j] == turn) 
+                    {
+                        playerInput[i, j] = 1;
+                    }
+                    else if (board[i, j] != EMPTY) 
+                    {
+                        oppoInput[i, j] = 1;
+                    }
+                }
+            }
+            List<int> moves = LegalMoves();
+            foreach (int m in moves) 
+            {
+                if(m != 64) 
+                {
+                    int[] index = IndexToMove(m);
+                    int i = index[0];
+                    int j = index[1];
+                    moveInput[i, j] = 1;
+                }
+            }
+            return (playerInput, oppoInput, moveInput);
         }
         public Board(Board aBoard) 
         {
