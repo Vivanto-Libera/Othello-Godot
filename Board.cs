@@ -10,7 +10,7 @@ namespace othello
         public Square.State[,] board = new Square.State[8,8];
         public Square.State turn = BLACK;
         private int passCount = 0;
-        public Square.State isTerminal() 
+        public Square.State IsTerminal() 
         {
             if(passCount != 2) 
             {
@@ -45,8 +45,8 @@ namespace othello
         public List<int> LegalMoves() 
         {
             List<int> legalMoves = new List<int>();
-            int[] rowDirection = new int[8] { -1, -1, 0, 1, 1, 1, 0, -1 };
-            int[] colDirection = new int[8] { 0, 1, 1, 1, 0, -1, -1, -1 };
+            int[] rowDirection = [-1, -1, 0, 1, 1, 1, 0, -1];
+            int[] colDirection = [0, 1, 1, 1, 0, -1, -1, -1];
             for (int i = 0; i < 8; i++) 
             {
                 for (int j = 0; j < 8; j++) 
@@ -93,7 +93,83 @@ namespace othello
             }
             return legalMoves;
         }
-        public int[] IndexToMove(int index) 
+        public void ApplyMove(int move) 
+        {
+            if (move == 64) 
+            {
+                passCount++;
+            }
+            else 
+            {
+                passCount = 0;
+                int[] theMove = IndexToMove(move);
+                int r = theMove[0];
+                int c = theMove[1];
+                board[r, c] = turn;
+                bool[] fliped = [false, false, false, false, false, false, false, false];
+                int[] rowDirection = [-1, -1, 0, 1, 1, 1, 0, -1];
+                int[] colDirection = [0, 1, 1, 1, 0, -1, -1, -1];
+                for (int i = 0; i < 8; i++) 
+                {
+                    int newR = r + rowDirection[i];
+                    int newC = c + colDirection[i];
+                    if (newR >= 8 || newR < 0 || newC >= 8 || newC < 0) 
+                    {
+                        continue;
+                    }
+                    if (board[newR, newC] == EMPTY || board[newR, newC] == turn) 
+                    {
+                        continue;
+                    }
+                    while (true)
+                    {
+                        newR += rowDirection[i];
+                        newC += colDirection[i];
+                        if (newR >= 8 || newR < 0 || newC >= 8 || newC < 0) 
+                        {
+                            break;
+                        }
+                        if (board[newR, newC] == EMPTY)
+                        {
+                            break;
+                        }
+                        if (board[newR,newC] == turn) 
+                        {
+                            fliped[i] = true;
+                            break;
+                        }
+                    }
+                }
+                for (int j = 0; j < 8; j++)
+                {
+                    if (!fliped[j])
+                    {
+                        continue;
+                    }
+                    int newR = r;
+                    int newC = c;
+                    while (true)
+                    {
+                        newR += rowDirection[j];
+                        newC += rowDirection[j];
+                        if (board[newR, newC] == turn) 
+                        {
+                            break;
+                        }
+                        board[newR, newC] = turn;
+                    }
+                }
+            }
+            if(turn == BLACK) 
+            {
+                turn = WHITE;
+            }
+            else 
+            {
+                turn = BLACK;
+            }
+        }
+        public static int[] IndexToMove(int index) 
         {
             if (index == 64) 
             {
@@ -102,7 +178,7 @@ namespace othello
             int[] move = new int[2] { index / 8, index % 8 };
             return move;
         }
-        public int MoveToIndex(int r, int c) 
+        public static int MoveToIndex(int r, int c) 
         {
             if (r == -1) 
             {
@@ -114,6 +190,7 @@ namespace othello
         {
             Array.Copy(aBoard.board, board, board.Length);
             turn = aBoard.turn;
+            passCount = aBoard.passCount;
         }
     }
 }

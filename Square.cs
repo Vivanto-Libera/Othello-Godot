@@ -21,8 +21,8 @@ public partial class Square : TextureRect
 	public void setState(State newState) 
 	{
 		state = newState;
-        GetNode<Button>("Button").SetDeferred(Button.PropertyName.Disabled, true);
-        switch (state) 
+		GetNode<Button>("Button").SetDeferred(Button.PropertyName.Disabled, true);
+		switch (state) 
 		{
 			case State.EMPTY:
 				Texture = null;
@@ -34,10 +34,10 @@ public partial class Square : TextureRect
 				Texture = GD.Load<Texture2D>("res://image/white.png");
 				break;
 			default:
-                Texture = GD.Load<Texture2D>("res://image/gray.png");
+				Texture = GD.Load<Texture2D>("res://image/gray.png");
 				GetNode<Button>("Button").SetDeferred(Button.PropertyName.Disabled, false);
-                break;
-        }
+				break;
+		}
 	}
 	public void OnButtonPressed() 
 	{
