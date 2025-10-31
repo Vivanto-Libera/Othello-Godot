@@ -149,7 +149,7 @@ namespace othello
             v = node.Expand(model);
             BackUp(v, node.parentEdge);
         }
-        public List<float> Search(MCNode rootNode) 
+        public float[] Search(MCNode rootNode) 
         {
             this.rootNode = rootNode;
             this.rootNode.Expand(model);
@@ -159,7 +159,7 @@ namespace othello
                 ExpandAndEvaluate(selectedNode);
             }
             int NSum = 0;
-            List<float> moveProbs = new List<float>();
+            float[] moveProbs = new float[65];
             foreach (EdgeNode edgeNode in rootNode.childEdgeNodes) 
             {
                 NSum += edgeNode.edge.N;
@@ -167,7 +167,7 @@ namespace othello
             foreach (EdgeNode edgeNode in rootNode.childEdgeNodes)
             {
                 float prob = ((float)Math.Pow(edgeNode.edge.N, (1 / tau))) / (float)Math.Pow(NSum, (1 / tau));
-                moveProbs.Add(prob);
+                moveProbs[edgeNode.edge.move.Value] = prob;
             }
             return moveProbs;
         }
