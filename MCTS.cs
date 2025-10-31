@@ -33,13 +33,12 @@ namespace othello
     }
     public class MCNode 
     {
-        public Board board = new Board();
+        public Board board;
         public MCEdge parentEdge = new MCEdge(null, null);
         public List<EdgeNode> childEdgeNodes = new List<EdgeNode>();
         public float Expand(OthelloModel model) 
         {
             List<int> moves = board.LegalMoves();
-            List<EdgeNode> childEdgeNodes = new List<EdgeNode>();
             foreach (int move in moves) 
             {
                 Board childBoard = new Board(board);
@@ -52,14 +51,14 @@ namespace othello
             float probSum = 0;
             foreach (EdgeNode edgeNode in childEdgeNodes) 
             {
-                edgeNode.edge.P = (float)prob[0,edgeNode.edge.move].ToDouble();
+                edgeNode.edge.P = prob[0,edgeNode.edge.move].item<float>();
                 probSum += edgeNode.edge.P;
             }
             foreach (EdgeNode edgeNode in childEdgeNodes)
             {
                 edgeNode.edge.P /= probSum;
             }
-            return (float)value[0,0].ToDouble();
+            return value[0,0].item<float>();
         }
         public bool IsLeaf() 
         {
@@ -145,6 +144,7 @@ namespace othello
                     v = -1;
                 }
                 BackUp(v, node.parentEdge);
+                return;
             }
             v = node.Expand(model);
             BackUp(v, node.parentEdge);

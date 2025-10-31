@@ -5,11 +5,9 @@ using System.Runtime.CompilerServices;
 public partial class Square : TextureRect
 {
 	[Export]
-	public int row;
-	[Export]
-	public int col;
+	public int index;
 	[Signal]
-	public delegate void SelectedEventHandler(int row, int col);
+	public delegate void SelectedEventHandler(int index);
 	public enum State
 	{
 		EMPTY,
@@ -38,10 +36,11 @@ public partial class Square : TextureRect
 				GetNode<Button>("Button").SetDeferred(Button.PropertyName.Disabled, false);
 				break;
 		}
+		ForceUpdateTransform();
 	}
 	public void OnButtonPressed() 
 	{
-		EmitSignal(SignalName.Selected, row, col);
+		EmitSignal(SignalName.Selected, index);
 	}
 
 }

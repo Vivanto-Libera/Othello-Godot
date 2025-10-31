@@ -16,7 +16,7 @@ namespace othello
         }
         public OthelloModel() 
         {
-            model = torch.jit.load("res://model/Othello.pt");
+            model = torch.jit.load("Othello.pt");
             model.eval();
         }
     }
