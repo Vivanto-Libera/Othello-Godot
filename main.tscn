@@ -368,7 +368,7 @@ offset_left = 378.0
 offset_top = 378.0
 offset_right = 442.0
 offset_bottom = 442.0
-index = 64
+index = 54
 
 [node name="55" parent="Squares" instance=ExtResource("2_0xm2m")]
 offset_left = 441.0
