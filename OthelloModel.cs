@@ -9,9 +9,14 @@ namespace othello
 {
     public class OthelloModel
     {
+        torch.jit.ScriptModule model;
+        public ValueTuple<torch.Tensor, torch.Tensor> Predict(torch.Tensor input) 
+        {
+            return (ValueTuple<torch.Tensor, torch.Tensor>)model.forward(input);
+        }
         public OthelloModel() 
         {
-            var model = torch.jit.load("res://model/Othello.pt");
+            model = torch.jit.load("res://model/Othello.pt");
             model.eval();
         }
     }

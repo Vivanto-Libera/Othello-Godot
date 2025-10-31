@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.ExceptionServices;
 using static Square.State;
+using static TorchSharp.torch;
 
 namespace othello
 {
@@ -186,22 +187,20 @@ namespace othello
             }
             return r * 8 + c;
         }
-        public (float[,] input1, float[,] input2, float[,] input3) ModelInput() 
+        public Tensor ModelInput() 
         {
-            float[,] playerInput = new float[8, 8];
-            float[,] oppoInput = new float[8, 8];
-            float[,] moveInput = new float[8, 8];
+            Tensor input = zeros(new long[] {1,3,8,8});
             for (int i = 0; i < 8; i++) 
             {
                 for(int j = 0; j < 8; j++) 
                 {
                     if (board[i,j] == turn) 
                     {
-                        playerInput[i, j] = 1;
+                        input[0, 0, i, j] = 1;
                     }
                     else if (board[i, j] != EMPTY) 
                     {
-                        oppoInput[i, j] = 1;
+                        input[0, 1, i, j] = 1;
                     }
                 }
             }
@@ -213,10 +212,10 @@ namespace othello
                     int[] index = IndexToMove(m);
                     int i = index[0];
                     int j = index[1];
-                    moveInput[i, j] = 1;
+                    input[0, 2, i, j] = 1;
                 }
             }
-            return (playerInput, oppoInput, moveInput);
+            return input;
         }
         public Board(Board aBoard) 
         {
