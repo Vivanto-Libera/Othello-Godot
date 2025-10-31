@@ -1,7 +1,6 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using Microsoft.ML.OnnxRuntime;
 
 namespace othello
 {
@@ -49,18 +48,19 @@ namespace othello
                 childEdgeNodes.Add(new EdgeNode(childEdge, childNode));
             }
             var (input1, input2, input3) = board.ModelInput();
-            var (prob, value) = model.Predict(input1, input2, input3);
+            //var (prob, value) = model.Predict(input1, input2, input3);
             float probSum = 0;
             foreach (EdgeNode edgeNode in childEdgeNodes) 
             {
-                edgeNode.edge.P = prob[edgeNode.edge.move.Value];
+                //edgeNode.edge.P = prob[edgeNode.edge.move.Value];
                 probSum += edgeNode.edge.P;
             }
             foreach (EdgeNode edgeNode in childEdgeNodes)
             {
                 edgeNode.edge.P /= probSum;
             }
-            return value[0];
+            //return value[0];
+            return 1;
         }
         public bool IsLeaf() 
         {
