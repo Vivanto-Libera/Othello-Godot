@@ -19,32 +19,39 @@ public partial class Main : Node
 		GetNode<Button>("Black").Visible = true;
 		GetNode<Button>("White").Visible = true;
 		GetNode<Label>("Label").Visible = false;
-	}
+        GetNode<Label>("Tutorial").Visible = true;
+    }
 	public void OnBlackPressed() 
 	{
 		playerColor = Square.State.BLACK;
 		squares.setLegalMoves();
 		GetNode<Button>("Black").Visible = false;
 		GetNode<Button>("White").Visible = false;
-	}
+        GetNode<Label>("Tutorial").Visible = false;
+    }
 	public void OnwhitePressed() 
 	{
 		playerColor = Square.State.WHITE;
 		GetNode<Button>("Black").Visible = false;
 		GetNode<Button>("White").Visible = false;
-		AIMove();
+        GetNode<Label>("Tutorial").Visible = false;
+        AIMove();
 	}
-	public async void AIMove() 
+	public void AIMove() 
 	{
-		squares.board.ApplyMove(agent.SelectMove(new Board(squares.board)));
-		if(squares.board.IsTerminal() != Square.State.LEGALMOVE) 
-		{
-			EmitSignal(SignalName.GameOver);
-		}
-		await ToSignal(GetTree().CreateTimer(0.5), Timer.SignalName.Timeout);
-		squares.CallDeferred("SetStateFromBoard");
-		squares.CallDeferred("setLegalMoves");
+		agent.StartThread(new Board(squares.board));
 	}
+	public void AIMoved(int index) 
+	{
+        squares.board.ApplyMove(index);
+        squares.CallDeferred("SetStateFromBoard");
+        if (squares.board.IsTerminal() != Square.State.LEGALMOVE)
+        {
+            EmitSignal(SignalName.GameOver);
+            return;
+        }
+        squares.CallDeferred("setLegalMoves");
+    }
 	
 	public void Moved() 
 	{
@@ -69,15 +76,15 @@ public partial class Main : Node
 		string message = "";
 		if(winner == Square.State.EMPTY) 
 		{
-			message = "Draw";
+			message = "平局";
 		}
 		else if (winner == Square.State.BLACK) 
 		{
-			message = "Black Win";
+			message = "黑方获胜";
 		}
 		else 
 		{
-			message = "White Win";
+			message = "白方获胜";
 		}
 		await ShowMessage(message);
 		Reset();
@@ -94,6 +101,7 @@ public partial class Main : Node
 	{
 		squares = GetNode<Squares>("Squares");
 		agent = new Agent(new OthelloModel());
-		Reset();
+        agent.AiSelectedMove += AIMoved;
+        Reset();
 	}
 }

@@ -437,7 +437,8 @@ offset_top = 189.0
 offset_right = 442.0
 offset_bottom = 316.0
 theme_override_font_sizes/font_size = 32
-text = "White"
+text = "执白
+后手"
 
 [node name="Black" type="Button" parent="."]
 offset_left = 63.0
@@ -445,7 +446,8 @@ offset_top = 189.0
 offset_right = 190.0
 offset_bottom = 316.0
 theme_override_font_sizes/font_size = 32
-text = "Black"
+text = "执黑
+先手"
 
 [node name="Label" type="Label" parent="."]
 visible = false
@@ -455,9 +457,22 @@ offset_right = 329.0
 offset_bottom = 316.0
 theme_override_colors/font_color = Color(0.61009, 2.4667e-06, 4.81307e-07, 1)
 theme_override_font_sizes/font_size = 32
-text = "Black Win"
+text = "黑赢了"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Tutorial" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -96.0
+offset_right = 96.0
+offset_bottom = 49.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+text = "落子需夹住对方棋子并翻转
+终局棋子多的一方获胜"
+horizontal_alignment = 1
 
 [connection signal="GameOver" from="." to="." method="GameOvered"]
 [connection signal="Passed" from="Squares" to="." method="Passed"]
